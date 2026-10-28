@@ -1,5 +1,0 @@
-SHADI SHAHEEN Portfolio - Update Guide
-
-1. Edit the site content.
-2. Run UPDATE-SITE.bat to generate the updated site files.
-3. Run START-HERE.bat to install dependencies, build, preview, and open the site.
