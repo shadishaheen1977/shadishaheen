@@ -1,0 +1,79 @@
+SHADI SHAHEEN — Admin Guide
+=========================
+
+Open the admin panel:  <your-site-url>/#admin   (or open the site and add #admin)
+Password:  shadi   (change it in src/admin/Admin.tsx → PASSWORD)
+
+Tabs:
+- Contact & Links : email, WhatsApp, socials, TikTok, Facebook, Company-profile PDF, Portfolio PDF, location.
+- Hero Video      : the top full-screen video.
+- Photography     : photo galleries, organised in FOLDERS (see below).
+- Videos          : video items.
+- Social/Clients  : social stats + client names.
+- Client Logos    : client logo grid.
+- Ad Campaigns    : campaign image, title (EN/AR) AND the numbers on each card.
+                    Each "number" has a Label (EN/AR) and a Value (e.g. 0, 3.1M, 4.7%).
+                    Add / remove numbers per campaign with "Add number" / trash icon.
+- About Text      : your bio (EN/AR).
+- Publish         : sends photos + content.json straight to GitHub (see below).
+
+Photography folders
+-------------------
+Each category (Restaurants / Cars / Medical / Real Estate / Products / Salons) holds one
+folder per client. A folder has:
+  * Name (EN + AR)  - shown under the tile
+  * Logo            - the client's logo, shown on the folder tile
+                      (transparent PNG works best; if empty the name is shown)
+  * Cover           - optional background photo behind the logo
+                      (defaults to the folder's first photo)
+  * Photos          - what opens when a visitor clicks the folder
+
+FASTEST WAY — "Import a folder"
+At the top of the Photography tab there are two buttons. Pick a folder on your
+computer and the whole structure is rebuilt here automatically:
+  * sub-folders stay sub-folders
+  * a file named  logo.png   becomes that folder's logo (embedded, tiny)
+  * a file named  cover.jpg  becomes that folder's background
+  * every other image gets its /assets/photography/... path, sorted by name
+Afterwards drag the very same folder into GitHub:
+  "Import a whole category folder" -> upload it into  assets/photography/
+  "Import one client folder"       -> upload it into  assets/photography/<category>/
+Tick "Embed the photos" if you'd rather not touch GitHub at all - the photos are
+shrunk to 1600px and stored inside content.json (keep the total under ~10 MB).
+
+Cars work one level deeper: the folder is the SHOWROOM name, and inside it you
+add a sub-folder per CAR TYPE (Sports / Luxury / Classic ...), each with its own
+photos. Sub-folders are available in every category if you need them.
+
+Downloads on the site:
+- "Company profile"    → Company profile PDF  (empty by default = button hidden)
+- "Download portfolio" → Portfolio PDF        (empty by default = button hidden)
+  Upload a PDF to assets/ on GitHub and paste its path (e.g. /assets/SHADI-SHAHEEN-Resume.pdf)
+  in the Contact & Links tab — the button appears automatically.
+
+Email row: clicking it now opens the visitor's mail app (mailto). The "Copy email"
+button still copies the address.
+
+PUBLISH TAB — no manual uploading
+Fill in: owner (your GitHub username), repository, branch (usually main), and a
+fine-grained personal access token with Contents: Read and write for that repo.
+Press "Test connection" once, then "Publish to GitHub": every queued photo and
+content.json go up as ONE commit and the site is live ~1 minute later.
+
+The token is a password for your repo. It lives in this browser only, is never
+written into content.json or into the site, and "Forget token" wipes it.
+Photos queued by "Import a folder" are held in memory - publish before you
+reload the page, or just import the folder again.
+
+Once the Publish tab is set up, every "Upload from device" button sends the
+file straight to the repository and stores only its path, so content.json stays
+tiny. Files are filed automatically (a folder's photos go to
+/assets/photography/<category>/<folder>/, everything else to /assets/uploads/),
+names are cleaned up, and images are shrunk to 2000px. Press "Publish now" in
+the header when you're done and the site updates for everyone. Enter the token
+once per device, so the same flow works from a phone.
+
+Saving changes:
+1. Edit in the panel → "Save & preview" (saves to this browser, previews live).
+2. Click "Export" to download an updated portfolio.ts.
+3. Replace src/data/portfolio.ts with it and rebuild/redeploy for everyone.
